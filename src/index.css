@@ -1,0 +1,143 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'Zona Pro';
+  src: url('/fonts/ZonaPro-Regular.woff2') format('woff2'),
+       url('/fonts/ZonaPro-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Zona Pro';
+  src: url('/fonts/ZonaPro-Medium.woff2') format('woff2'),
+       url('/fonts/ZonaPro-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Zona Pro';
+  src: url('/fonts/ZonaPro-SemiBold.woff2') format('woff2'),
+       url('/fonts/ZonaPro-SemiBold.woff') format('woff');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Zona Pro';
+  src: url('/fonts/ZonaPro-Bold.woff2') format('woff2'),
+       url('/fonts/ZonaPro-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --font-sans: 'Zona Pro', 'Manrope', 'Inter', system-ui, sans-serif;
+  --color-ppos-blue: #3a95ff;
+  --color-ppos-blue-light: #6bb0ff;
+  --color-ppos-blue-dark: #2a7ae0;
+  --color-ppos-birch: #5fefb4;
+  --color-ppos-birch-light: #8af5cc;
+  --color-ppos-birch-dark: #3dd99a;
+  --color-ppos-violet: #bc76ff;
+  --color-ppos-violet-light: #d4a3ff;
+  --color-ppos-violet-dark: #a050f0;
+  --color-surface: #FFFFFF;
+  --color-surface-alt: #F5F7FA;
+  --color-text-primary: #1A1A1A;
+  --color-text-secondary: #6B7280;
+  --color-text-muted: #9CA3AF;
+  --color-border: #E5E7EB;
+}
+
+:root {
+  --ppos-blue: #3a95ff;
+  --ppos-birch: #5fefb4;
+  --ppos-violet: #bc76ff;
+  --text-primary: #1A1A1A;
+  --surface: #FFFFFF;
+  --surface-alt: #F5F7FA;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: 'Zona Pro', 'Manrope', 'Inter', system-ui, sans-serif;
+  color: var(--text-primary);
+  background-color: var(--surface);
+  line-height: 1.6;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--surface-alt);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c4c9d4;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a0a6b4;
+}
+
+.text-gradient-primary {
+  background: linear-gradient(135deg, var(--ppos-blue), var(--ppos-violet));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.bg-gradient-hero {
+  background: linear-gradient(135deg, var(--ppos-blue) 0%, var(--ppos-violet) 50%, var(--ppos-birch) 100%);
+}
+
+@keyframes blob {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(20px, -30px) scale(1.1); }
+  50% { transform: translate(-10px, 20px) scale(0.95); }
+  75% { transform: translate(15px, 10px) scale(1.05); }
+}
+
+.animate-blob {
+  animation: blob 8s ease-in-out infinite;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
