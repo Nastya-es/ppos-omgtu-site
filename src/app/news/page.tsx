@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ChevronRight } from "lucide-react";
-import { getAllNews } from "@/lib/markdown";
+import { ChevronRight, Calendar, Tag } from "lucide-react";
+import { getAllNews } from "../../lib/markdown";
 
 export default function NewsPage() {
   const allNews = getAllNews();
@@ -42,8 +42,10 @@ export default function NewsPage() {
                   alt={news.title}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
+                {/* Тег категории */}
                 <div className="absolute top-4 left-4">
-                  <span className="px-3 py-1.5 bg-[#5FEFB4] text-[#1A1A1A] text-xs font-semibold rounded-full">
+                  <span className="inline-flex items-center gap-1 px-3 py-1.5 bg-[#5FEFB4] text-[#1A1A1A] text-xs font-semibold rounded-full">
+                    <Tag className="w-3 h-3" />
                     {news.category}
                   </span>
                 </div>
@@ -51,14 +53,19 @@ export default function NewsPage() {
 
               {/* Контент */}
               <div className="p-6">
-                <p className="text-xs text-[#1A1A1A]/50 font-medium mb-3">
+                <p className="inline-flex items-center gap-1.5 text-xs text-[#1A1A1A]/50 font-medium mb-3">
+                  <Calendar className="w-3.5 h-3.5" />
                   {news.date}
                 </p>
                 <h2 className="text-lg font-bold text-[#1A1A1A] mb-3 group-hover:text-[#3a95ff] transition-colors line-clamp-2">
                   {news.title}
                 </h2>
                 <p className="text-sm text-[#1A1A1A]/60 line-clamp-3 leading-relaxed">
-                  {news.content.substring(0, 150).replace(/[#*`]/g, "").trim()}...
+                  {news.content
+                    .substring(0, 150)
+                    .replace(/[#*`]/g, "")
+                    .trim()}
+                  ...
                 </p>
                 <Link
                   href={`/news/${news.id}`}
@@ -71,6 +78,15 @@ export default function NewsPage() {
             </motion.article>
           ))}
         </div>
+
+        {/* Если новостей нет */}
+        {allNews.length === 0 && (
+          <div className="text-center py-20">
+            <p className="text-xl text-[#1A1A1A]/60">
+              Пока нет новостей. Загляните позже!
+            </p>
+          </div>
+        )}
       </div>
     </section>
   );
