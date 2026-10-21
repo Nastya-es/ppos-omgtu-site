@@ -9,28 +9,24 @@ const cards = [
     title: "Защита прав",
     description:
       "Юридическая помощь, представительство интересов в учебных и административных вопросах.",
-    gradient: "from-ppos-blue to-ppos-violet",
   },
   {
     icon: Rocket,
     title: "Проекты и гранты",
     description:
       "Помогаем студентам получать гранты, участвовать в конкурсах и реализовывать свои идеи.",
-    gradient: "from-ppos-violet to-ppos-birch",
   },
   {
     icon: TrendingUp,
     title: "Личностный рост",
     description:
       "Образовательные программы, мастер-классы, тренинги и менторство для развития навыков.",
-    gradient: "from-ppos-birch to-ppos-blue",
   },
   {
     icon: Sparkles,
     title: "Яркие события",
     description:
       "Фестивали, спортивные турниры, творческие конкурсы и культурные мероприятия круглый год.",
-    gradient: "from-ppos-blue to-ppos-birch",
   },
 ];
 
@@ -69,10 +65,8 @@ export default function WhatWeDo() {
                 whileHover={{ y: -8 }}
                 className="group relative p-8 bg-white rounded-3xl shadow-md hover:shadow-2xl transition-shadow duration-500"
               >
-                {/* Иконка */}
-                <div
-                  className={`w-14 h-14 bg-gradient-to-br ${card.gradient} rounded-2xl flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300`}
-                >
+                {/* Иконка — берёзовый фон */}
+                <div className="w-14 h-14 rounded-2xl bg-[#5FEFB4] flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
                   <Icon className="w-7 h-7 text-white" />
                 </div>
 

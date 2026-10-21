@@ -2,43 +2,54 @@
 
 import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Send, CheckCircle, Loader2 } from "lucide-react";
+import { Send, CheckCircle, Loader2, AlertCircle } from "lucide-react";
+
+// ═══════════════════════════════════════════════════
+// Web3Forms API Key
+// ═══════════════════════════════════════════════════
+const WEB3FORMS_KEY = "732f393b-e3f3-417d-8759-ed30d1b5fce3";
 
 export default function ConsultationForm() {
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setError(null);
 
-    const form = e.currentTarget;
-    const formData = new FormData(form);
+    try {
+      const form = e.currentTarget;
+      const formData = new FormData(form);
 
-    fetch("https://formsubmit.co/ajax/nastenka.esikova@mail.ru", {
-      method: "POST",
-      headers: { Accept: "application/json" },
-      body: formData,
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.success === "true" || data.success === true) {
-          setIsSuccess(true);
-          form.reset();
-        } else {
-          alert("Ошибка отправки. Попробуйте позже.");
-        }
-      })
-      .catch(() => {
-        // Если JSON не парсится — всё равно считаем успешным
-        // (FormSubmit может вернуть HTML при первом отправлении)
+      // Добавляем ключ Web3Forms
+      formData.append("access_key", WEB3FORMS_KEY);
+
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData,
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
         setIsSuccess(true);
         form.reset();
-      })
-      .finally(() => {
-        setIsSubmitting(false);
-      });
+      } else {
+        throw new Error(result.message || "Ошибка отправки. Попробуйте позже.");
+      }
+    } catch (err) {
+      console.error("Ошибка отправки формы:", err);
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Произошла ошибка при отправке. Попробуйте позже."
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -97,14 +108,17 @@ export default function ConsultationForm() {
                 transition={{ delay: 0.3, duration: 0.6 }}
                 className="bg-[#F5F7FA] rounded-3xl shadow-lg p-8 sm:p-10 space-y-5"
               >
-                {/* Скрытые поля FormSubmit */}
-                <input
-                  type="hidden"
-                  name="_subject"
-                  value="Новая заявка с сайта ППОС ОмГТУ"
-                />
-                <input type="hidden" name="_captcha" value="false" />
-                <input type="hidden" name="_template" value="table" />
+                {/* Сообщение об ошибке */}
+                {error && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="flex items-center gap-3 p-4 bg-red-50 border border-red-200 rounded-2xl"
+                  >
+                    <AlertCircle className="w-5 h-5 text-red-500 shrink-0" />
+                    <p className="text-sm text-red-700">{error}</p>
+                  </motion.div>
+                )}
 
                 {/* ФИО */}
                 <div>
@@ -182,6 +196,10 @@ export default function ConsultationForm() {
                     placeholder="Расскажите подробнее о вашей ситуации..."
                   />
                 </div>
+
+                {/* Скрытые поля Web3Forms */}
+                <input type="hidden" name="subject" value="Новая заявка с сайта ППОС ОмГТУ" />
+                <input type="hidden" name="from_name" value="ППОС ОмГТУ - Форма консультации" />
 
                 {/* Кнопка отправки */}
                 <motion.button
