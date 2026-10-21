@@ -1,7 +1,7 @@
 import Header from '../src/components/Header';
 import Hero from '../src/components/Hero';
 import WhatWeDo from "../src/components/WhatWeDo";
-import LatestNews from "../src/components/LatestNews";
+import LatestNewsServer from "../src/components/LatestNewsServer";
 import OurProjects from "../src/components/OurProjects";
 import ConsultationForm from "../src/components/ConsultationForm";
 import Footer from "../src/components/Footer";
@@ -14,7 +14,7 @@ export default function Home() {
       <main>
         <Hero />
         <WhatWeDo />
-        <LatestNews />
+        <LatestNewsServer />
         <OurProjects />
         <ConsultationForm />
       </main>
