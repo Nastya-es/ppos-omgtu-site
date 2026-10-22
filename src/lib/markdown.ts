@@ -12,6 +12,7 @@ export interface NewsItem {
   category: string;
   title: string;
   image: string;
+  images: string[]; 
   content: string;
 }
 
@@ -36,21 +37,18 @@ export function getAllNews(): NewsItem[] {
       category: matterResult.data.category,
       title: matterResult.data.title,
       image: matterResult.data.image,
+      images: matterResult.data.images || [matterResult.data.image],  // ← добавь эту строку
       content: matterResult.content,
     };
   });
 
   // Сортируем по дате (новые сверху)
-  return allNewsData.sort((a, b) => {
-    if (a.date < b.date) {
-      return 1;
-    } else {
-      return -1;
-    }
-  });
-}
+  // Сортируем по дате (новые сверху)
+  return allNewsData.sort((a, b) => 
+    new Date(b.date as string).getTime() - new Date(a.date as string).getTime()
+  );}
 
-export function getNewsBySlug(slug: string): NewsItem {
+  export function getNewsBySlug(slug: string): NewsItem {
   const fullPath = path.join(newsDirectory, `${slug}.md`);
   const fileContents = fs.readFileSync(fullPath, "utf8");
   const matterResult = matter(fileContents);
@@ -61,6 +59,7 @@ export function getNewsBySlug(slug: string): NewsItem {
     category: matterResult.data.category,
     title: matterResult.data.title,
     image: matterResult.data.image,
+    images: matterResult.data.images || [matterResult.data.image],  // ← добавь эту строку
     content: matterResult.content,
   };
 }
